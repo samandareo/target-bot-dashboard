@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Books Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        .modal-dialog {
+            max-width: 500px;
+            margin: 1.75rem auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Books Dashboard</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Telegram Channel Message Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                    <tr>
+                        <td>{{ book[2] }}</td>
+                        <td>{{ book[0] }}</td>
+                        <td><a href="{{ book[2] }}" target="_blank">{{ book[1] }}</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-primary" onclick="document.getElementById('addBookModal').style.display='block'">Add Book</button>
+        <button class="btn btn-danger" onclick="document.getElementById('deleteBookModal').style.display='block'">Delete Book</button>
+
+        <!-- Add Book Modal -->
+        <div class="modal" id="addBookModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Book</h5>
+                        <button type="button" class="close" onclick="document.getElementById('addBookModal').style.display='none'" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('add_book') }}" method="post">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="telegram_channel_msg_link">Telegram Channel Message Link:</label>
+                                <input type="text" class="form-control" id="telegram_channel_msg_link" name="telegram_channel_msg_link" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="book_id">Book ID:</label>
+                                <input type="text" class="form-control" id="book_id" name="book_id" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Book</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Book Modal -->
+        <div class="modal" id="deleteBookModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete Book</h5>
+                        <button type="button" class="close" onclick="document.getElementById('deleteBookModal').style.display='none'" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('delete_book') }}" method="post">
+                            <div class="form-group">
+                                <label for="book_id">Book ID:</label>
+                                <input type="text" class="form-control" id="book_id" name="book_id" required>
+                            </div>
+                            <button type="submit" class="btn btn-danger">Delete Book</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
